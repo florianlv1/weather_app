@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.fromLTRB(0, 120.0, 0, 0),
           child: Column(
             children: [
-              ElevatedButton(
+              TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/location');
                 },
