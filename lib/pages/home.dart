@@ -12,17 +12,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map data = {};
-  String bgImage = "night.png";
+  String bgImage = "night.jpeg";
   Color? bgColor = Colors.blue;
 
   @override
   Widget build(BuildContext context) {
     try {
-      data = ModalRoute.of(context)!.settings.arguments as Map;
+      data = data.isNotEmpty ? data : ModalRoute.of(context)!.settings.arguments as Map;
       print(data);
 
       // set background
-      bgImage = data["isDaytime"] ?  "day.png" : "night.png";
+      bgImage = data["isDaytime"] ?  "day.jpg" : "night.jpeg";
       bgColor = data["isDaytime"] ? Colors.blue: Colors.indigo[700];
     }
     catch (e) {
@@ -44,8 +44,16 @@ class _HomeState extends State<Home> {
             child: Column(
               children: [
                 TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/location');
+                  onPressed: () async {
+                    dynamic result = await Navigator.pushNamed(context, '/location');
+                    setState(() {
+                      data = {
+                        "time" : result["time"],
+                        "location": result["location"],
+                        "isDaytime": result["isDaytime"],
+                        "flag": result["flag"]
+                      };
+                    });
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
